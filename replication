@@ -1,0 +1,9 @@
+container1
+mysql -u root -p
+stop slave; 
+CHANGE MASTER TO MASTER_HOST = 'container2_ip', MASTER_USER = 'replicator', MASTER_PASSWORD = '1234', MASTER_LOG_FILE = 'mysql-bin.00000x', MASTER_LOG_POS = position; 
+start slave; 
+container2
+stop slave; 
+CHANGE MASTER TO MASTER_HOST = 'container1_ip', MASTER_USER = 'replicator', MASTER_PASSWORD = '1234', MASTER_LOG_FILE = 'mysql-bin.00000x', MASTER_LOG_POS = position; 
+start slave; 
